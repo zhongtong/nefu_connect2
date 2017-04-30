@@ -18,17 +18,17 @@
         <a href="welcome/exit_login"><span class="user-more glyphicon glyphicon-option-horizontal"></span></a>
         <div class="user-photo">
             <img src="<?php echo $loginedUser->portrait;?>" alt="username">
-            <div><?php echo $loginedUser->username;?></div>
+            <div><?php echo $loginedUser->realname;?></div>
         </div>
         <div class="user-info">
             <div class="user-info-left">
-                <span>帖子</span>
+                <a href="welcome/your_msg"><span>帖子</span></a>
                 <span class="number">
                     <?php foreach ($msg_counts as $msg_count){?><?php echo $msg_count->num;?><?php }?>
                 </span>
             </div>
             <div class="user-info-right">
-                <span>回复</span>
+                <a href="welcome/your_love"><span>喜欢</span></a>
                 <span class="number">
                     <?php foreach ($com_counts as $com_count){?><?php echo $com_count->num;?><?php }?>
                 </span>
@@ -37,50 +37,50 @@
     </header>
     <div class="user-content">
         <div class="user-content-title">
-            nfuconnect服务
+            nfucampus服务
         </div>
         <div class="user-content-item">
             <ul>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-music"></p><br/>
-                        <span>123</span>
+                        <span>音乐</span>
                     </div>
                  </li>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-glass"></p><br/>
-                        <span>123</span>
+                        <span>吃喝玩乐</span>
                     </div>
                 </li>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-pencil"></p><br/>
-                        <span>123</span>
+                        <span>学习</span>
                     </div>
                 </li>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-search"></p><br/>
-                        <span>123</span>
+                        <span>搜索</span>
                     </div>
                 </li>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-time"></p><br/>
-                        <span>123</span>
+                        <span>闹钟</span>
                     </div>
                 </li>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-headphones"></p><br/>
-                        <span>123</span>
+                        <span>听歌</span>
                     </div>
                 </li>
                 <li class="col-xs-6 col-sm-4">
                     <div>
                         <p class="glyphicon glyphicon-book"></p><br/>
-                        <span>123</span>
+                        <span>书籍</span>
                     </div>
                 </li>
             </ul>

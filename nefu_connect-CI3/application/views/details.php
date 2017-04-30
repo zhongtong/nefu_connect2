@@ -4,7 +4,6 @@ header("Content-type: text/html; charset=utf8");
 date_default_timezone_set("Asia/Shanghai");   //设置时区
 function time_tran($the_time) {
     $now_time = date("Y-m-d H:i:s", time());
-    //echo $now_time;
     $now_time = strtotime($now_time);
     $show_time = strtotime($the_time);
     $dur = $now_time - $show_time;
@@ -63,7 +62,6 @@ function time_tran($the_time) {
     <!--内容主体开始-->
     <div class="content">
         <ul>
-            <?php foreach($details as $detail){ ?>
                 <li>
                     <div class="wrapper">
                         <div class="content-header">
@@ -84,7 +82,7 @@ function time_tran($the_time) {
                                 if($detail->is_anonymity){
                                     echo "某同学·".$detail->sex;
                                 }else{
-                                    echo $detail->username;
+                                    echo $detail->realname;
                                 }
                                 ?>
                             </span>
@@ -109,7 +107,6 @@ function time_tran($the_time) {
                         </div>
                     </div>
                 </li>
-            <?php } ?>
         </ul>
     </div>
     <!--评论主体开始-->
@@ -131,8 +128,7 @@ function time_tran($the_time) {
                                 </div>
                             </div>
                             <div class="comment-header-right">
-                                <img src="assets/fonts/smile.ico" alt="">
-                                <span>0</span>
+                                <img src="assets/fonts/bear.ico" alt="">
                             </div>
                         </div>
 
@@ -150,17 +146,25 @@ function time_tran($the_time) {
     <!--尾部开始-->
     <div class="footer">
         <form action="welcome/add_comment" method="post">
-            <?php foreach($details as $detail){ ?>
             <input type="hidden" value="<?php echo $detail->msg_id;?>" name="hid_msg_id">
-            <?php } ?>
-            <?php
-            $default="<textarea name=\"comment\" id=\"com_text\" cols=\"30\" rows=\"1\" placeholder=\"请登录后再评论\" ></textarea>";
-            if($is_login == 1 ){
-                $default="<textarea name=\"comment\" id=\"com_text\" cols=\"30\" rows=\"1\" placeholder=\"发表评论\"></textarea>";
-            }
-            echo $default;
-            ?>
-            <button id="send_com" type="submit">发送</button>
+            <div class="input-group">
+                <?php
+                $default="<input type=\"text\" class=\"form-control\" name=\"comment\" placeholder=\"请登录后评论\" disabled>";
+                if($is_login == 1 ){
+                    $default="<input type=\"text\" class=\"form-control\" name=\"comment\" id=\"content_com\"placeholder=\"发表评论\">";
+                }
+                echo $default;
+                ?>
+                <span class="input-group-btn">
+                    <?php
+                    $default_2="<button class=\"btn btn-default\" type=\"submit\" id=\"send_com\" disabled>发表</button>";
+                    if($is_login == 1 ){
+                        $default_2="<button class=\"btn btn-default\" type=\"submit\" id=\"send_com\">发表</button>";
+                    }
+                     echo $default_2;
+                    ?>
+                </span>
+            </div>
         </form>
 
     </div>
