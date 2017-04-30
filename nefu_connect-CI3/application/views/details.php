@@ -120,9 +120,9 @@ function time_tran($the_time) {
                 <div class="wrapper-com">
                     <div class="comment-header">
                         <div class="comment-header-left">
-                            <img src="assets/img/default.jpg" alt="">
+                            <img src="<?php echo $comment->portrait;?>" alt="">
                             <div class="column">
-                                <div class="column-one">banana</div>
+                                <div class="column-one"><?php echo $comment->username;?></div>
                                 <div class="column-two">
                                     <?php
                                     $posttimesecond=$comment->post_date_com;
@@ -149,13 +149,26 @@ function time_tran($the_time) {
     <!--内容主体结束-->
     <!--尾部开始-->
     <div class="footer">
-        <textarea name="" id="" cols="30" rows="1" placeholder="请登录后再评论"></textarea>
-        <div>发送</div>
+        <form action="welcome/add_comment" method="post">
+            <?php foreach($details as $detail){ ?>
+            <input type="hidden" value="<?php echo $detail->msg_id;?>" name="hid_msg_id">
+            <?php } ?>
+            <?php
+            $default="<textarea name=\"comment\" id=\"com_text\" cols=\"30\" rows=\"1\" placeholder=\"请登录后再评论\" ></textarea>";
+            if($is_login == 1 ){
+                $default="<textarea name=\"comment\" id=\"com_text\" cols=\"30\" rows=\"1\" placeholder=\"发表评论\"></textarea>";
+            }
+            echo $default;
+            ?>
+            <button id="send_com" type="submit">发送</button>
+        </form>
+
     </div>
     <!--尾部结束-->
 </div>
 </div>
 <script src="assets/js/jquery-2.1.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/comment.js"></script>
 </body>
 </html>

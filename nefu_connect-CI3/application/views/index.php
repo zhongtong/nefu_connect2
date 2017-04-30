@@ -4,7 +4,6 @@
     date_default_timezone_set("Asia/Shanghai");   //设置时区
     function time_tran($the_time) {
         $now_time = date("Y-m-d H:i:s", time());
-        //echo $now_time;
         $now_time = strtotime($now_time);
         $show_time = strtotime($the_time);
         $dur = $now_time - $show_time;
@@ -82,11 +81,11 @@
                             ?>" alt="">
                             <span>
                                 <?php
-                                if($message->is_anonymity){
-                                    echo "某同学·".$message->sex;
-                                }else{
-                                    echo $message->username;
-                                }
+                                    if($message->is_anonymity){
+                                        echo "某同学·".$message->sex;
+                                    }else{
+                                        echo $message->username;
+                                    }
                                 ?>
                             </span>
                         </div>
@@ -100,7 +99,21 @@
                     </div>
                     <div class="content-footer">
                         <div class="content-footer-love">
-                            <a href="javascript:;"><img src="assets/fonts/love.ico" alt=""></a>
+                            <p class="content-footer-love-pic">
+                                <img src="<?php
+                                    $defalt = 'assets/fonts/love.ico';
+                                    if($results) {
+                                        foreach ($results as $result) {
+                                            if ($message->msg_id == $result->msg_id) {
+                                                $defalt = 'assets/fonts/love-2.ico';
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    echo $defalt;
+                                ?>" alt="">
+                                <input type="checkbox" value="<?php echo $message->msg_id;?>">
+                            </p>
                             <span><?php echo $message->love_num;?></span>
                         </div>
                         <div class="content-footer-comment">
@@ -120,7 +133,7 @@
             <img src="assets/fonts/page-2.ico" alt="">
         </div>
         <div class="footer-right">
-            <a href="welcome/login"><img src="assets/fonts/person-1.ico" alt=""></a>
+            <a href="welcome/user"><img src="assets/fonts/person-1.ico" alt=""></a>
         </div>
     </footer>
     <!--底部导航栏结束-->

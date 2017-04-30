@@ -94,7 +94,7 @@ $(function(){
             content_header_left=$(' <div class="content-header-left"></div>'),
             content_header_img=$('<img src="assets/img/woman1.jpg" alt="">'),
             content_header_span=$('<span>某同学·女</span>'),
-            content_header_right=$('<div class="content-header-right">10天前</div>'),
+            content_header_right=$('<div class="content-header-right">3分钟前</div>'),
             content_middle=$(' <div class="content-middle"></div>'),
             middle_text=$(' <div class="middle-text">想帮同学问一下 有一个互联网研究的访谈项目，需要绵阳的城市负责人，找地方，访谈的时候负责现场事情 两天4.24-4.25 路费住宿费报销 报酬一天二百左右 需要传简历过去 有没有人想去的 她说可以学到很多市场调研的东西</div>'),
             content_footer=$('<div class="content-footer"></div>'),
@@ -160,8 +160,17 @@ $(function(){
     });
     /*点赞开始*/
     $(".content-footer-love img").each(function(){
-        var flag=false;
+        $(this).siblings().on('click',function(){
+            $(this).siblings().click();
+        });
+        var flag = false;
         $(this).on("click",function(){
+            var url = $(this).attr("src");
+            if(url == 'assets/fonts/love.ico'){
+                flag = false;
+            }else{
+                flag = true;
+            }
             var html=$(this).parent().siblings().html();
             var html2=parseInt(html);
             if(flag){
@@ -169,11 +178,35 @@ $(function(){
                 $(this).parent().siblings().html(html2);
                 $(this).attr("src","assets/fonts/love.ico");
                 flag=false;
+                var str = $(this).siblings().val();
+                var that = this;
+                $.get('welcome/reduce_like',{
+                    'ids' : str
+                }, function (data) {
+                    if(data == 'fail'){
+                        html2+=1;
+                        $(that).parent().siblings().html(html2);
+                        $(that).attr("src","assets/fonts/love-2.ico");
+                        flag=true;
+                    }
+                });
             }else{
                 html2+=1;
                 $(this).parent().siblings().html(html2);
                 $(this).attr("src","assets/fonts/love-2.ico");
                 flag=true;
+                var str = $(this).siblings().val();
+                var that = this;
+                $.get('welcome/add_like',{
+                    'ids' : str
+                }, function (data) {
+                    if(data == 'fail'){
+                        html2-=1;
+                        $(that).parent().siblings().html(html2);
+                        $(that).attr("src","assets/fonts/love.ico");
+                        flag=false;
+                    }
+                });
             }
         });
     });

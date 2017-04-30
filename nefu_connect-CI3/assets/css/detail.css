@@ -193,7 +193,16 @@ a{
     color: rgba(0, 0, 0, 0.8);
     padding: 12px 15px;
     bottom: 0px;
-    border-top: 0.5px solid rgba(0, 0, 0, 0.0980392);
+    box-shadow: rgba(0, 0, 0, 0.0470588) 0.5px 0.5px 0.5px 0.5px;
+}
+.footer form{
+    position: fixed;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 12px 15px;
+    bottom: 0px;
     box-shadow: rgba(0, 0, 0, 0.0470588) 0.5px 0.5px 0.5px 0.5px;
 }
 .footer textarea{
@@ -210,13 +219,14 @@ a{
     margin-right: 8px;
     height: 32px;
 }
-.footer div{
+.footer button{
     color: rgb(170, 170, 170);
     flex: 0 1 35px;
-    padding: 4px 0px;
     text-align: center;
-    font-size: 17px;
+    font-size: 15px;
     cursor: pointer;
+    background: #fff;
+    border-style: none;
 }
 @media(max-width: 600px){
     #index{
