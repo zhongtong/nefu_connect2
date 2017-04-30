@@ -111,6 +111,11 @@ function time_tran($the_time) {
             <?php } ?>
         </ul>
     </div>
+    <div class="none_msg">
+            <?php if(!$messages){
+                echo "没有喜欢的啦 ╮(￣▽￣)╭";
+            }?>
+    </div>
     <!--底部导航栏开始-->
     <footer class="footer">
         <div class="footer-left">

@@ -358,6 +358,12 @@ a{
     display: none;
 }
 /*login 结束*/
+.none_msg{
+    font-size: 20px;
+    font-weight: bold;
+    background: #CCCCCC;
+    text-align: center;
+}
 
 
 

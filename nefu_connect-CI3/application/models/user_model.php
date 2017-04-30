@@ -22,7 +22,7 @@ class User_model extends CI_Model{
         return $this->db->query($sql)->result();
     }
     public function get_love_count($user_id){
-        $sql="SELECT count(*) num FROM t_like WHERE user_id=1";
+        $sql="SELECT count(*) num FROM t_like WHERE user_id=$user_id";
         return $this->db->query($sql)->result();
     }
     public function get_name($name){
