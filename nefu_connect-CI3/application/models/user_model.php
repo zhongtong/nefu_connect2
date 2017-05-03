@@ -31,4 +31,30 @@ class User_model extends CI_Model{
         ));
         return $query->row();
     }
+    public function get_realname_portrait($user_id){
+        $sql="select u.realname,u.portrait from t_user u where user_id=$user_id ";
+        return $this->db->query($sql)->result();
+    }
+    public function update_realname($user_id,$realname){
+        $this->db->set('realname',$realname);
+        $this->db->where('user_id',$user_id);
+        $this->db->update('t_user');
+        return $this->db->affected_rows();
+    }
+    public function update_portrait($photo_url,$user_id){
+        $this->db->set('portrait',$photo_url);
+        $this->db->where('user_id',$user_id);
+        $this->db->update('t_user');
+        return $this->db->affected_rows();
+    }
+    public function check_update_pass($user_id){
+        $sql="select u.password from t_user u where user_id=$user_id ";
+        return $this->db->query($sql)->row();
+    }
+    public function new_pass($user_id,$new_pass){
+        $this->db->set('password',$new_pass);
+        $this->db->where('user_id',$user_id);
+        $this->db->update('t_user');
+        return $this->db->affected_rows();
+    }
 }

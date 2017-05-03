@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/publish.css">
-    <title>campusInfo</title>
+    <title>东林匿名信息平台nefu_connect</title>
 </head>
 <body>
 <div id="index">
@@ -53,10 +53,17 @@
             <img src="assets/fonts/favicon.ico" alt="">
         </div>
         <div class="title-center" id="title">
-            campus
+            NfuConnect
         </div>
         <div class="title-right" >
-            <img id="open" src="assets/fonts/add.ico" alt="">
+            <?php
+            if($is_login == 'yes'){
+                $open_defalt = '<img id="open" src="assets/fonts/add.ico" alt="">';
+            }else{
+                $open_defalt = '<img id="to_login" src="assets/fonts/add.ico" alt="">';
+            }
+            echo $open_defalt;
+            ?>
         </div>
     </div>
     <!--导航栏结束-->
@@ -69,13 +76,13 @@
                     <div class="content-header">
                         <div class="content-header-left">
                             <img src="<?php
-                                if($message->is_anonymity){
-                                    if($message->sex == '男'){
+                                if($message->is_anonymity) {
+                                    if ($message->sex == '男') {
                                         echo 'assets/img/man2.jpg';
-                                    }else{
+                                    } else {
                                         echo 'assets/img/woman2.jpg';
                                     }
-                                }else{
+                                }else {
                                     echo $message->portrait;
                                 }
                             ?>" alt="">

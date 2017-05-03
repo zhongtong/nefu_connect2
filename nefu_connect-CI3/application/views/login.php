@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="assets/fonts/favicon.ico" type="assets/img/x-icon" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
-    <title>campusInfo</title>
+    <title>东林匿名信息平台nefu_connect</title>
 </head>
 <body>
     <div id="index">
@@ -24,6 +24,11 @@
             <form class="login login-select" method="post" action="welcome/do_login">
                 <div class="form-group">
                     <label for="exampleInputEmail1">账号</label>
+                    <?php
+                    $default="<div style=\"color:red;\">用户名或密码错误</div>";
+                    if(!$is_logined){
+                        echo $default;
+                    }?>
                     <input name="name" class="form-control" id="exampleInputEmail1" placeholder="账号">
                 </div>
                 <div class="form-group">

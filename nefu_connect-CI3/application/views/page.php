@@ -42,7 +42,7 @@ function time_tran($the_time) {
     <link rel="shortcut icon" href="assets/fonts/favicon.ico" type="assets/img/x-icon" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
-    <title>Document</title>
+    <title>东林匿名信息平台nefu_connect</title>
 </head>
 <body>
 <div id="index">
@@ -110,11 +110,6 @@ function time_tran($the_time) {
                 </li>
             <?php } ?>
         </ul>
-    </div>
-    <div class="none_msg">
-        <?php if(!$messages){
-            echo "没有喜欢的啦 ╮(￣▽￣)╭";
-        }?>
     </div>
     <!--底部导航栏开始-->
     <footer class="footer">
