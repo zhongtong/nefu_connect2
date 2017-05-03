@@ -16,20 +16,18 @@
     <header class="login-header">
         修改个人资料
     </header>
-        <form class="reg" style="display: block;margin: 50px auto;height: 100px;" action="welcome/upload_portrait" method="post" enctype="multipart/form-data">
-            <div><input type="file" name="up_portrait" style=""></div>
-            <button type="submit" class="btn btn-primary" style="text-align: center;margin-top: 8px;">修改头像</button>
-        </form>
-    <?php foreach ($list as $real){?>
-    <form class="reg" method="post" action="welcome/update_realname" style="display:block;margin:0 auto;">
-    <div class="form-group">
-            <label for="realname">真实姓名</label>
-            <div class="alert alert-warning realname-alert" role="alert"></div>
-            <input name="realname" class="form-control" id="realname" value="<?php echo $real->realname;?>">
+    <form class="update_info" method="post" action="welcome/update_realname">
+        <div class="user-photo">
+            <a href=""><img src="<?php echo $loginedUser->portrait;?>" alt="username"></a>
         </div>
-        <button type="submit" class="btn btn-primary" id="regSubmit">修改姓名</button>
+        <div class="form-group">
+            <label for="exampleInputEmail2">昵称</label>
+            <div class="alert alert-warning realname-alert" role="alert"></div>
+            <input name="realname" class="form-control" id="realname" placeholder="<?php echo $loginedUser->realname;?>" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-default" id="regSubmit">修改</button>
     </form>
-    <?php }?>
+
     <!--底部导航栏开始-->
     <footer class="footer">
         <div class="footer-left">
@@ -43,5 +41,6 @@
 </div>
 <script src="assets/js/jquery-2.1.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/login.js"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">账号</label>
                     <?php
-                    $default="<div style=\"color:red;\">用户名或密码错误</div>";
+                    $default="<div class=\"alert alert-warning\" role=\"alert\" style=\"display: block\">用户或密码错误</div>";
                     if(!$is_logined){
                         echo $default;
                     }?>
@@ -41,12 +41,12 @@
                 <div class="form-group">
                     <label for="exampleInputEmail2">账号</label>
                     <div class="alert alert-warning name-alert" role="alert"></div>
-                    <input name="name" class="form-control" id="name" placeholder="账号">
+                    <input name="name" class="form-control" id="name" placeholder="账号" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail2">真实姓名</label>
+                    <label for="exampleInputEmail2">昵称</label>
                     <div class="alert alert-warning realname-alert" role="alert"></div>
-                    <input name="realname" class="form-control" id="realname" placeholder="真实姓名">
+                    <input name="realname" class="form-control" id="realname" placeholder="昵称" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputrePassword1">密码</label>

@@ -32,8 +32,9 @@ class Welcome extends CI_Controller {
 
 	}
 	public function save_message(){
+		$this->load->helper('security');
 		$loginedUser=$this->session->userdata("loginedUser");
-		$content=$this->input->post("content");
+		$content=xss_clean($this->input->post("content"));
 		$anonymity=$this->input->post("anonymity");
 		$this -> load -> model('message_model');
 		$results=$this->message_model->save_message($content,$anonymity,$loginedUser->user_id);
@@ -91,8 +92,9 @@ class Welcome extends CI_Controller {
 		}
 	}
 	public function add_comment(){
+		$this->load->helper('security');
 		$loginedUser=$this->session->userdata("loginedUser");
-		$content=$this->input->post("comment");
+		$content=xss_clean($this->input->post("comment"));
 		$msg_id=$this->input->post("hid_msg_id");
 		$this->load->model("comment_model");
 		$this->comment_model->add_com_num($msg_id);
@@ -108,38 +110,42 @@ class Welcome extends CI_Controller {
 			$this->load->model('user_model');
 			$msg_count = $this->user_model->get_message_count($loginedUser->user_id);
 			$com_count = $this->user_model->get_love_count($loginedUser->user_id);
-            $real_name=$this->user_model->get_realname_portrait($loginedUser->user_id);
 			$this->load->view('user', array(
 					"msg_counts" => $msg_count,
-					"com_counts" => $com_count,
-                    "real_name_portrait"=>$real_name
+					"com_counts" => $com_count
 			));
 		}else{
-			$this->load->view('login',array(
-                'is_logined'=>true
-            ));
+			redirect("welcome/login");
 		}
 	}
 	public function login()
 	{
 		$this->load->view('login',array(
-            'is_logined'=>true
-        ));
+				'is_logined'=>true
+		));
 	}
 	public function no_login(){
-        $this->load->view('login',array(
-            'is_logined'=>false
-        ));
-    }
+		$this->load->view('login',array(
+				'is_logined'=>false
+		));
+	}
 	public function check_reg_name(){
 		$name=$this->input->get("str");
 		$this->load->model('user_model');
 		if($name){
 			$row = $this->user_model->get_name($name);
-			if(strstr($name,"<script>")){
+			if($name == ''){
+				echo 'blank_fail';
+			}else if(strstr($name,"<")){
+				echo 'fail';
+			}else if(strstr($name,"=")){
+				echo 'fail';
+			}else if(strstr($name,"'")){
 				echo 'fail';
 			}else if($row){
 				echo 'repeat_fail';
+			}else if(strstr($name," ")){
+				echo 'none_fail';
 			}else{
 				echo 'success';
 			}
@@ -148,18 +154,26 @@ class Welcome extends CI_Controller {
 	public function check_reg_realname(){
 		$realname =$this->input->get("str");
 		if($realname){
-			if(preg_match('/^[\x{4e00}-\x{9fa5}]+$/u', $realname)>0){
-				echo 'success';
-			}else{
-				echo "fail";
+			if(strstr($realname,"<")){
+				echo 'fail';
+			}else if(strstr($realname,"=")){
+				echo 'fail';
+			}else if(strstr($realname,"'")){
+				echo 'fail';
+			}else if(strstr($realname,"or")){
+				echo 'fail';
+			}else if(strstr($realname,' ')){
+			    echo 'none_fail';
+            }else{
+				echo "success";
 			}
 		}
 	}
 	public function check_reg_pass(){
 		$pass =$this->input->get("str");
 		$low_pass = array('asdfgh',123456,666666,333333,222222,111111,999999,888888,'qwerty','zxcvbn',123456789,1234567);
-		if(strstr($pass,"<script>")){
-			echo 'xss_fail';
+		if(strstr($pass," ")){
+			echo 'none_fail';
 		}else{
 			$flag = 'fail';
 			foreach($low_pass as $pas){
@@ -177,19 +191,23 @@ class Welcome extends CI_Controller {
 		$name=$this->input->post("name");
 		$realname =$this->input->post("realname");
 		$password=$this->input->post("password");
+		$md5_pass = md5($password);
 		$portrait="assets/img/default.jpg";
 		$sex=$this->input->post("sex");
 		$this->load->model("user_model");
-		$results=$this->user_model->save($name,$realname,$password,$portrait,$sex);
-		if($results>0){
-			redirect("welcome/login");
+		$results=$this->user_model->save($name,$realname,$md5_pass,$portrait,$sex);
+		if($name=='' or $realname=='' or $password==''){
+			echo '<script>alert("抱歉，发生未知错误，注册失败");top.location=\'login\';</script>';
+		}else if($results>0){
+			echo '<script>alert("注册成功！");top.location=\'login\';</script>';
 		}
 	}
 	public function do_login(){
 		$name=$this->input->post("name");
 		$password=$this->input->post("password");
+		$md5_pass=md5($password);
 		$this->load->model('user_model');
-		$row=$this->user_model->get_by_name_pwd($name,$password);
+		$row=$this->user_model->get_by_name_pwd($name,$md5_pass);
 		if($row){
 			$this->session->set_userdata("loginedUser",$row);
 			redirect("welcome/user");
@@ -200,8 +218,8 @@ class Welcome extends CI_Controller {
 	public function exit_login(){
 		$this->session->unset_userdata("loginedUser");
 		$this->load->view('login',array(
-            'is_logined'=>true
-        ));
+				'is_logined'=>true
+		));
 	}
 	public function your_msg(){
 		$loginedUser=$this->session->userdata("loginedUser");
@@ -228,60 +246,46 @@ class Welcome extends CI_Controller {
 	/*用户页功能结束*/
 	/*修改资料，密码功能开始*/
 	public function update_info(){
-        $loginedUser=$this->session->userdata("loginedUser");
-	    $this->load->model('user_model');
-        $list=$this->user_model->get_realname_portrait($loginedUser->user_id);
-	    $this->load->view('update_info',array(
-	        'list'=>$list
-        ));
-    }
-    public function update_realname(){
-        $loginedUser=$this->session->userdata("loginedUser");
-        $realname=$this->input->post('realname');
-        $this->load->model('user_model');
-        $this->user_model->update_realname($loginedUser->user_id,$realname);
-        redirect('welcome/user');
-    }
-    public function upload_portrait(){
-        $loginedUser=$this->session->userdata("loginedUser");
-        $config['upload_path']='./assets/img/user_portrait/';//设置上传路径
-        $config['allowed_types']='gif|jpg|png|jpeg';//设置上传文件的格式
-        $config['max-size']='3072';//设置文件的大小
-        $config['file_name']=date("YmdHis").'_'.rand(10000,99999);//设置文件的文件名
-        $this->load->library('upload',$config);
-        $this->upload->do_upload('up_portrait');//表单里的name属性值
-        $upload_data=$this->upload->data();
+		$loginedUser=$this->session->userdata("loginedUser");
+		$this->load->view('update_info',array(
+				'loginedUser'=>$loginedUser
+		));
+	}
+	public function update_realname(){
+		$loginedUser=$this->session->userdata("loginedUser");
+		$realname=$this->input->post('realname');
+		$this->load->model('user_model');
+		$rows = $this->user_model->update_realname($loginedUser->user_id,$realname);
+		$row = $this -> user_model -> get_by_user_id($loginedUser->user_id);
+		if($rows){
+			$this -> session -> set_userdata('loginedUser',$row);
+			echo '<script>alert("修改成功！");top.location=\'user\';</script>';
+		}
+	}
 
-        if($upload_data['file_size']>0){
-            $photo_url="assets/img/user_portrait/".$upload_data['file_name'];
-            $this->load->model("user_model");
-            $rows=$this->user_model->update_portrait($photo_url,$loginedUser->user_id);
-            if($rows>0){
-                redirect("welcome/user");
-            }
-        }
-    }
-    public function update_pass(){
-        $this->load->view('update_pass');
-    }
-    public function check_update_pass(){
-        $loginedUser=$this->session->userdata("loginedUser");
-        $pass=$this->input->get('str');
-        $this->load->model('user_model');
-        $password=$this->user_model->check_update_pass($loginedUser->user_id);
-        if($pass == $password->password){
-            echo 'success';
-        }else{
-            echo 'fail';
-        }
-    }
-    public function new_pass(){
-        $loginedUser=$this->session->userdata("loginedUser");
-        $new_pass=$this->input->post('new_password');
-        $this->load->model('user_model');
-        $this->user_model->new_pass($loginedUser->user_id,$new_pass);
-        redirect('welcome/user');
-    }
-    /*修改资料，密码功能结束*/
+	public function update_pass(){
+		$this->load->view('update_pass');
+	}
+	public function new_pass(){
+		$old_pass=md5($this->input->post('old_pass'));
+		$this->load->model('user_model');
+		$loginedUser=$this->session->userdata("loginedUser");
+		$row=$this->user_model->get_by_Id_pwd($loginedUser->user_id,$old_pass);
+		if($row){
+			$new_pass=md5($this->input->post('password'));
+			$result = $this->user_model->new_pass($loginedUser->user_id,$new_pass);
+			if($result){
+				$this->session->unset_userdata("loginedUser");
+				echo '<script>alert("修改成功！");top.location=\'login\';</script>';
+			}else{
+				echo '<script>alert("修改失败！");top.location=\'user\';</script>';
+			}
+
+		}else{
+			echo '<script>alert("当前密码错误！");top.location=\'update_pass\';</script>';
+		}
+
+	}
+	/*修改资料，密码功能结束*/
 
 }

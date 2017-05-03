@@ -17,16 +17,20 @@
         修改密码
     </header>
 
-        <form class="reg" method="post" action="welcome/new_pass" style="display:block;margin:50px auto;">
+        <form class="update_pass" method="post" action="welcome/new_pass">
             <div class="form-group">
-                <label for="pass">当前密码</label>
-                <div class="alert alert-warning pass-alert" role="alert"></div>
-                <input name="password" type="password" class="form-control" id="pass">
+                <label for="old_pass">当前密码</label>
+                <input name="old_pass" type="password" class="form-control" placeholder="输入当前密码" id="old_pass">
             </div>
             <div class="form-group">
-                <label for="repass">新密码</label>
+                <label for="exampleInputrePassword1">新密码</label>
+                <div class="alert alert-warning pass-alert" role="alert"></div>
+                <input name="password" type="password" class="form-control" id="pass" placeholder="设置新密码">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputrePassword2">重复密码</label>
                 <div class="alert alert-warning repass-alert" role="alert"></div>
-                <input name="new_password" type="password" class="form-control" id="repass">
+                <input type="password" class="form-control" id="repass" placeholder="重复新密码">
             </div>
             <button type="submit" class="btn btn-primary" id="regSubmit">修改密码</button>
         </form>
@@ -44,6 +48,6 @@
 </div>
 <script src="assets/js/jquery-2.1.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/update.js"></script>
+<script src="assets/js/login.js"></script>
 </body>
 </html>

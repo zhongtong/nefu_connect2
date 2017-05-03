@@ -17,22 +17,19 @@ class User_model extends CI_Model{
         ));
         return $query->row();
     }
+    public function get_by_Id_pwd($user_id,$password){
+        $query=$this->db->get_where('t_user',array(
+            "user_id"=>$user_id,
+            "password"=>$password
+        ));
+        return $query->row();
+    }
     public function get_message_count($user_id){
         $sql="select count(*) num from t_message where user_id=$user_id";
         return $this->db->query($sql)->result();
     }
     public function get_love_count($user_id){
         $sql="SELECT count(*) num FROM t_like WHERE user_id=$user_id";
-        return $this->db->query($sql)->result();
-    }
-    public function get_name($name){
-        $query=$this->db->get_where('t_user', array(
-            'username' => $name
-        ));
-        return $query->row();
-    }
-    public function get_realname_portrait($user_id){
-        $sql="select u.realname,u.portrait from t_user u where user_id=$user_id ";
         return $this->db->query($sql)->result();
     }
     public function update_realname($user_id,$realname){
@@ -47,14 +44,16 @@ class User_model extends CI_Model{
         $this->db->update('t_user');
         return $this->db->affected_rows();
     }
-    public function check_update_pass($user_id){
-        $sql="select u.password from t_user u where user_id=$user_id ";
-        return $this->db->query($sql)->row();
-    }
     public function new_pass($user_id,$new_pass){
         $this->db->set('password',$new_pass);
         $this->db->where('user_id',$user_id);
         $this->db->update('t_user');
         return $this->db->affected_rows();
+    }
+    public function get_by_user_id($user_id)
+    {
+        return $this->db->get_where('t_user', array(
+            'user_id' => $user_id
+        ))->row();
     }
 }
