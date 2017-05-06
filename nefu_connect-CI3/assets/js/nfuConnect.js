@@ -1,4 +1,17 @@
+/**
+ * Created by Administrator on 2017/5/4.
+ */
 $(function(){
+    /*评论验证开始*/
+    $('#send_com').on('click',function(){
+        if($('#content_com').val() == ''){
+            alert('评论不能为空');
+            return false;
+        }
+    });
+    /*评论验证结束*/
+
+    /*登录页面交互开始*/
     $('.btn-login').on('click',function () {
         $('.btn-login').removeClass('btn-default').addClass('btn-primary');
         $('.btn-reg').removeClass('btn-primary').addClass('btn-default');
@@ -11,6 +24,9 @@ $(function(){
         $('.reg').addClass('login-select');
         $('.login').removeClass('login-select');
     });
+    /*登录页面交互结束*/
+
+    /*注册验证开始*/
     var Flag1;
     var Flag2;
     var Flag3;
@@ -129,4 +145,84 @@ $(function(){
         $("#repass").trigger('blur');
         return Flag1 && Flag2 && Flag3 && Flag4;
     });
+    /*注册验证结束*/
+
+    /*点赞开始*/
+    $(".content-footer-love img").each(function(){
+        $(this).siblings().on('click',function(){
+            $(this).siblings().click();
+        });
+        var flag = false;
+        $(this).on("click",function(){
+            var url = $(this).attr("src");
+            if(url == 'assets/fonts/love.ico'){
+                flag = false;
+            }else{
+                flag = true;
+            }
+            var html=$(this).parent().siblings().html();
+            var html2=parseInt(html);
+            if(flag){
+                html2-=1;
+                $(this).parent().siblings().html(html2);
+                $(this).attr("src","assets/fonts/love.ico");
+                flag=false;
+                var str = $(this).siblings().val();
+                var that = this;
+                $.get('welcome/reduce_like',{
+                    'ids' : str
+                }, function (data) {
+                    if(data == 'fail'){
+                        html2+=1;
+                        $(that).parent().siblings().html(html2);
+                        $(that).attr("src","assets/fonts/love-2.ico");
+                        flag=true;
+                    }
+                });
+            }else{
+                html2+=1;
+                $(this).parent().siblings().html(html2);
+                $(this).attr("src","assets/fonts/love-2.ico");
+                flag=true;
+                var str = $(this).siblings().val();
+                var that = this;
+                $.get('welcome/add_like',{
+                    'ids' : str
+                }, function (data) {
+                    if(data == 'fail'){
+                        html2-=1;
+                        $(that).parent().siblings().html(html2);
+                        $(that).attr("src","assets/fonts/love.ico");
+                        flag=false;
+                    }
+                });
+            }
+        });
+    });
+    /*点赞结束*/
+    /*展开开始*/
+    $(".content li .middle-text").each(function () {
+        var btn = "<div></div>";
+        var text = $(this).html();
+        var text2 = text.substring(0, 80) + ".....";
+        $(this).html(text.length > 80 ? text2 : text);
+        if (text.length > text2.length) {
+            var bFlag = false;
+            $(btn).appendTo($(this).parent());
+            $(this).siblings().addClass("middle-btn");
+            $(this).siblings().html("展开全文");
+            $(this).siblings().on("click", function () {
+                if (bFlag) {
+                    $(this).last().html("展开全文");
+                    $(this).siblings().html(text2);
+                    bFlag = false;
+                } else {
+                    $(this).last().html("收起");
+                    $(this).siblings().html(text);
+                    bFlag = true;
+                }
+            });
+        }
+    });
+    /*展开结束*/
 });

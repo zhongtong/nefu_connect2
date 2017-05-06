@@ -16,12 +16,14 @@ a:link {
 a:visited {
     color: #000/* 已访问的链接 */
 }
-
+html, body{
+    font-size: 10px;
+}
 #index{
     width: 600px;
     margin:0 auto;
     position: relative;
-    padding-bottom: 50px;
+    padding-bottom: 70px;
 }
 #index .title{
     width: 600px;
@@ -96,7 +98,7 @@ a:visited {
 }
 .content-header-left span{
     font-family: Arial, Microsoft YaHei;
-    font-size: 16px;
+    font-size: 1.6rem;
 }
 .content-middle{
     width: 100%;
@@ -109,6 +111,7 @@ a:visited {
     width: 100%;
     height: 100%;
     padding-bottom: 15px;
+    word-wrap: break-word;
 }
 .middle-btn{
     display: inline-block;
@@ -156,7 +159,7 @@ a:visited {
 .content-footer span{
     font-family: Arial, Microsoft YaHei;
     color: rgb(170, 170, 170);
-    font-size: 18px;
+    font-size: 1.8rem;
 }
 .footer{
     width: 100%;
@@ -199,6 +202,18 @@ a:visited {
     height: 35px;
     background-color: white;
     border-radius: 5px;
+}
+#open{
+    transition: transform .2s ease-in;
+    -webkit-transition: transform .2s ease-in;
+    -o-transition: transform .2s ease-in;
+    -moz-transition: transform .2s ease-in;
+}
+#open:hover{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
 }
 @media(max-width: 600px){
     #index{
@@ -402,5 +417,13 @@ a:visited {
 }
 
 /*update 结束*/
+#no_page{
+    font-size:17px;
+    color:#444;
+    background: #CCCCCC;
+    text-align: center;
+    font-family: Arial, Microsoft YaHei;
+    padding:10px 0;
+}
 
 

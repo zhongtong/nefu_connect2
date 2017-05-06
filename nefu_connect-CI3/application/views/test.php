@@ -18,7 +18,7 @@
 //    echo 123;
 //}
 //echo 'asdaw';
-$str = 'asdfg123';
+$str = '950625';
 $md5 = md5($str);
 echo $md5;
-
+?>
